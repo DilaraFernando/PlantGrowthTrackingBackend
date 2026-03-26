@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+
 import java.util.List;
 
 @RestController
@@ -17,10 +18,10 @@ import java.util.List;
 public class PlantController {
     @Autowired
     private PlantService plantService;
-    
+
     @Autowired
     private SocialPostService socialPostService;
-    
+
     @Autowired
     private GrowthScheduler growthScheduler;
 
@@ -64,6 +65,15 @@ public class PlantController {
         String email = authentication.getName();
         List<SocialPostResponse> posts = socialPostService.getPostsForPlant(plantId, email);
         return ResponseEntity.ok(APIResponse.success(posts));
+    }
+
+    @PostMapping("/{plantId}/social-posts/generate")
+    public ResponseEntity<APIResponse<SocialPostResponse>> generatePost(
+            @PathVariable Long plantId,
+            Authentication authentication) {
+        String email = authentication.getName();
+        SocialPostResponse post = socialPostService.generatePostForPlant(plantId, email);
+        return ResponseEntity.ok(APIResponse.success(post));
     }
 
     @PostMapping("/admin/trigger-daily-update")
