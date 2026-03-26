@@ -1,7 +1,12 @@
 package lk.ijse.plantgrowthtracking.util;
 
-public class APIResponse {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class APIResponse<T> {
     private int status;
     private String message;
-    private Object data;
+    private T data;
 }

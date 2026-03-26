@@ -1,0 +1,166 @@
+[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/cyclonedx/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/flywaydb/maven-metadata.xml
+Progress (1): 255 BProgress (2): 255 B | 234 BProgress (3): 255 B | 234 B | 249 BProgress (4): 255 B | 234 B | 249 B | 243 B                                           Downloaded from central: https://repo.maven.apache.org/maven2/org/cyclonedx/maven-metadata.xml (243 B at 225 B/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/io/github/git-commit-id/maven-metadata.xml (255 B at 236 B/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/flywaydb/maven-metadata.xml (234 B at 217 B/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/maven-metadata.xml (249 B at 230 B/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/jooq/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/liquibase/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/maven-metadata.xml
+Progress (1): 242 BProgress (2): 242 B | 394 BProgress (3): 242 B | 394 B | 398 BProgress (4): 242 B | 394 B | 398 B | 375 B                                           Downloaded from central: https://repo.maven.apache.org/maven2/org/liquibase/maven-metadata.xml (394 B at 2.6 kB/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/graalvm/buildtools/maven-metadata.xml (242 B at 1.6 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml
+Downloading from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jooq/maven-metadata.xml (398 B at 2.6 kB/s)
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/maven-metadata.xml (375 B at 2.5 kB/s)
+Progress (1): 4.6 kBProgress (1): 9.7 kBProgress (2): 9.7 kB | 3.1 kBProgress (2): 9.7 kB | 7.7 kBProgress (2): 14 kB | 7.7 kB Progress (2): 14 kB | 12 kB                            Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-metadata.xml (14 kB at 96 kB/s)
+Progress (1): 17 kBProgress (1): 20 kBProgress (1): 21 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/mojo/maven-metadata.xml (21 kB at 73 kB/s)
+[INFO] 
+[INFO] -------------------< lk.ijse:Plant-Growth-Tracking >--------------------
+[INFO] Building Plant-Growth-Tracking 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.4:run (default-cli) > test-compile @ Plant-Growth-Tracking >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Plant-Growth-Tracking ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ Plant-Growth-Tracking ---
+[INFO] Recompiling the module because of added or removed source files.
+[INFO] Compiling 30 source files with javac [debug parameters release 21] to target/classes
+[WARNING] /home/bezerk/Documents/dev/work/D-works/PlantGrowthTrackinBackend/src/main/java/lk/ijse/plantgrowthtracking/entity/User.java:[30,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Plant-Growth-Tracking ---
+[INFO] skip non existing resourceDirectory /home/bezerk/Documents/dev/work/D-works/PlantGrowthTrackinBackend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ Plant-Growth-Tracking ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] <<< spring-boot:4.0.4:run (default-cli) < test-compile @ Plant-Growth-Tracking <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.4:run (default-cli) @ Plant-Growth-Tracking ---
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-buildpack-platform/4.0.4/spring-boot-buildpack-platform-4.0.4.jar
+Progress (1): 0.9/330 kBProgress (1): 2.3/330 kBProgress (1): 3.4/330 kBProgress (1): 4.7/330 kBProgress (1): 6.1/330 kBProgress (1): 7.5/330 kBProgress (1): 8.8/330 kBProgress (1): 10/330 kB Progress (1): 12/330 kBProgress (1): 13/330 kBProgress (1): 14/330 kBProgress (1): 16/330 kBProgress (1): 17/330 kBProgress (1): 18/330 kBProgress (1): 20/330 kBProgress (1): 21/330 kBProgress (1): 23/330 kBProgress (1): 24/330 kBProgress (1): 25/330 kBProgress (1): 27/330 kBProgress (1): 28/330 kBProgress (1): 29/330 kBProgress (1): 31/330 kBProgress (1): 32/330 kBProgress (1): 33/330 kBProgress (1): 35/330 kBProgress (1): 36/330 kBProgress (1): 38/330 kBProgress (1): 39/330 kBProgress (1): 40/330 kBProgress (1): 42/330 kBProgress (1): 43/330 kBProgress (1): 47/330 kBProgress (1): 52/330 kBProgress (1): 56/330 kBProgress (1): 60/330 kBProgress (1): 64/330 kBProgress (1): 68/330 kBProgress (1): 73/330 kBProgress (1): 77/330 kBProgress (1): 81/330 kBProgress (1): 85/330 kBProgress (1): 90/330 kBProgress (1): 94/330 kBProgress (1): 98/330 kBProgress (1): 102/330 kBProgress (1): 107/330 kBProgress (1): 111/330 kBProgress (1): 115/330 kBProgress (1): 119/330 kBProgress (1): 123/330 kBProgress (1): 126/330 kBProgress (1): 130/330 kBProgress (1): 135/330 kBProgress (1): 139/330 kBProgress (1): 143/330 kBProgress (1): 147/330 kBProgress (1): 152/330 kBProgress (1): 156/330 kBProgress (1): 160/330 kBProgress (1): 164/330 kBProgress (1): 169/330 kBProgress (1): 173/330 kBProgress (1): 177/330 kBProgress (1): 181/330 kBProgress (1): 185/330 kBProgress (1): 190/330 kBProgress (1): 194/330 kBProgress (1): 198/330 kBProgress (1): 202/330 kBProgress (1): 207/330 kBProgress (1): 211/330 kBProgress (1): 227/330 kBProgress (1): 244/330 kBProgress (1): 257/330 kBProgress (1): 274/330 kBProgress (1): 290/330 kBProgress (1): 306/330 kBProgress (1): 323/330 kBProgress (1): 330 kB                        Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-buildpack-platform/4.0.4/spring-boot-buildpack-platform-4.0.4.jar (330 kB at 282 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-loader-tools/4.0.4/spring-boot-loader-tools-4.0.4.jar
+Progress (1): 16/340 kBProgress (1): 33/340 kBProgress (1): 49/340 kBProgress (1): 66/340 kBProgress (1): 82/340 kBProgress (1): 98/340 kBProgress (1): 115/340 kBProgress (1): 131/340 kBProgress (1): 147/340 kBProgress (1): 164/340 kBProgress (1): 180/340 kBProgress (1): 197/340 kBProgress (1): 213/340 kBProgress (1): 229/340 kBProgress (1): 246/340 kBProgress (1): 262/340 kBProgress (1): 279/340 kBProgress (1): 295/340 kBProgress (1): 311/340 kBProgress (1): 328/340 kBProgress (1): 340 kB                        Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-loader-tools/4.0.4/spring-boot-loader-tools-4.0.4.jar (340 kB at 359 kB/s)
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.4)
+
+2026-03-26T13:23:20.270+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] l.i.p.PlantGrowthTrackingApplication     : Starting PlantGrowthTrackingApplication using Java 21.0.10 with PID 151408 (/home/bezerk/Documents/dev/work/D-works/PlantGrowthTrackinBackend/target/classes started by bezerk in /home/bezerk/Documents/dev/work/D-works/PlantGrowthTrackinBackend)
+2026-03-26T13:23:20.274+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] l.i.p.PlantGrowthTrackingApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-26T13:23:20.990+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-26T13:23:21.048+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 3 JPA repository interfaces.
+2026-03-26T13:23:21.589+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-26T13:23:21.602+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-26T13:23:21.602+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-26T13:23:21.633+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1314 ms
+2026-03-26T13:23:21.790+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-26T13:23:21.845+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-26T13:23:22.290+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-26T13:23:22.323+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-26T13:23:22.411+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@10a0a1e
+2026-03-26T13:23:22.414+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-26T13:23:22.448+05:30  WARN 151408 --- [Plant-Growth-Tracking] [           main] org.hibernate.orm.deprecation            : HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-26T13:23:22.476+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mariadb://localhost/plant_growth_tracking?user=root&password=***&createDatabaseIfNotExist=true]
+	Database driver: MariaDB Connector/J
+	Database dialect: MariaDBDialect
+	Database version: 11.8.6
+	Default catalog/schema: plant_growth_tracking/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-26T13:23:23.580+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-26T13:23:23.661+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-26T13:23:23.736+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-26T13:23:24.227+05:30  WARN 151408 --- [Plant-Growth-Tracking] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-26T13:23:24.358+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-03-26T13:23:24.919+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-26T13:23:24.924+05:30  INFO 151408 --- [Plant-Growth-Tracking] [           main] l.i.p.PlantGrowthTrackingApplication     : Started PlantGrowthTrackingApplication in 5.03 seconds (process running for 5.517)
+2026-03-26T13:23:59.738+05:30  INFO 151408 --- [Plant-Growth-Tracking] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-26T13:23:59.739+05:30  INFO 151408 --- [Plant-Growth-Tracking] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-26T13:23:59.741+05:30  INFO 151408 --- [Plant-Growth-Tracking] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    limit
+        ?
+Hibernate: 
+    insert 
+    into
+        users
+        (email, password, role, username) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.password,
+        u1_0.role,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.password,
+        u1_0.role,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    limit
+        ?
+2026-03-26T13:26:46.832+05:30  INFO 151408 --- [Plant-Growth-Tracking] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-26T13:26:46.834+05:30  INFO 151408 --- [Plant-Growth-Tracking] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-26T13:26:46.840+05:30  INFO 151408 --- [Plant-Growth-Tracking] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-26T13:26:46.842+05:30  INFO 151408 --- [Plant-Growth-Tracking] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-26T13:26:46.845+05:30  INFO 151408 --- [Plant-Growth-Tracking] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  03:36 min
+[INFO] Finished at: 2026-03-26T13:26:46+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.4:run (default-cli) on project Plant-Growth-Tracking: Process terminated with exit code: 143 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

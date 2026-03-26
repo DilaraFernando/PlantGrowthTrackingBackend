@@ -17,25 +17,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String username;
-
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private String username;
 
-    private Role role; //EXPERT,FARMER
-
-    private String authProvider;
-    private String providerId;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private FarmerProfile farmerProfile;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private ExpertProfile expertProfile;
+    @Column(nullable = false)
+    private String role = "USER";
 }

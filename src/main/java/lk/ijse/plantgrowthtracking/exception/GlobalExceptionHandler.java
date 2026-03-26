@@ -1,7 +1,11 @@
 package lk.ijse.plantgrowthtracking.exception;
 
-import lk.ijse.plantgrowthtracking.util.APIResponse;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
+import lk.ijse.plantgrowthtracking.exception.AlreadyExistsException;
+import lk.ijse.plantgrowthtracking.exception.EmailNotFoundException;
+import lk.ijse.plantgrowthtracking.exception.BadCredentialsException;
+import lk.ijse.plantgrowthtracking.util.APIResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,37 +17,22 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<APIResponse<String>> handleGlobalException(Exception ex) {
-        // Explicitly defining <String> helps the compiler on older/misconfigured IDEs
-        APIResponse<String> response = new APIResponse<String>(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal Server Error",
-                ex.getMessage()
-        );
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<APIResponse<String>> handleAlreadyExistsException(AlreadyExistsException ex) {
+        APIResponse<String> response = new APIResponse<>(409, "Already exists", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<APIResponse<String>> handleNullPointerException(NullPointerException ex) {
-        APIResponse<String> response = new APIResponse<String>(
-                HttpStatus.BAD_REQUEST.value(),
-                "Null Values are not Allowed",
-                ex.getMessage()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<APIResponse<String>> handleEmailNotFoundException(EmailNotFoundException ex) {
+        APIResponse<String> response = new APIResponse<>(404, "Email not found", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    // Fixed: Standard Spring 'ResponseStatusException' or custom RuntimeExceptions are better here
-    // But keeping your logic:
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<APIResponse<String>> handleRuntimeException(RuntimeException ex) {
-        APIResponse<String> response = new APIResponse<String>(
-                HttpStatus.BAD_REQUEST.value(),
-                "Operation Failed",
-                ex.getMessage()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<APIResponse<String>> handleBadCredentialsException(BadCredentialsException ex) {
+        APIResponse<String> response = new APIResponse<>(401, "Bad credentials", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -52,13 +41,13 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach((error) -> {
             errors.put(error.getField(), error.getDefaultMessage());
         });
-
-        // Use <Object> here because 'errors' is a Map, not a String
-        APIResponse<Object> response = new APIResponse<Object>(
-                HttpStatus.BAD_REQUEST.value(),
-                "Validation Error",
-                errors
-        );
+        APIResponse<Object> response = new APIResponse<>(400, "Validation Error", errors);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<APIResponse<String>> handleGlobalException(Exception ex) {
+        APIResponse<String> response = new APIResponse<>(500, "Internal Server Error", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -1,93 +1,55 @@
 package lk.ijse.plantgrowthtracking.service.impl;
 
-import lk.ijse.plantgrowthtracking.dto.*;
-import lk.ijse.plantgrowthtracking.entity.ExpertProfile;
-import lk.ijse.plantgrowthtracking.entity.FarmerProfile;
-import lk.ijse.plantgrowthtracking.entity.Role;
+import lk.ijse.plantgrowthtracking.dto.AuthRequest;
+import lk.ijse.plantgrowthtracking.dto.AuthResponse;
+import lk.ijse.plantgrowthtracking.dto.RegisterRequest;
 import lk.ijse.plantgrowthtracking.entity.User;
-import lk.ijse.plantgrowthtracking.repository.*;
+import lk.ijse.plantgrowthtracking.exception.AlreadyExistsException;
+import lk.ijse.plantgrowthtracking.exception.BadCredentialsException;
+import lk.ijse.plantgrowthtracking.exception.EmailNotFoundException;
+import lk.ijse.plantgrowthtracking.repository.UserRepository;
 import lk.ijse.plantgrowthtracking.service.AuthService;
+import lk.ijse.plantgrowthtracking.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
-    private final ExpertProfileRepository expertProfileRepository;
-    private final FarmerProfileRepository farmerProfileRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Override
     @Transactional
-    public AuthResponse register(RegisterRequest request) {
-
-
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            return AuthResponse.builder()
-                    .message("Email already in use!")
-                    .build();
+    public void register(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new AlreadyExistsException("Email already exists");
         }
-
-
-        User user = User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .role(request.getRole())
-                .build();
-
-        User savedUser = userRepository.save(user);
-
-
-        if (request.getRole() == Role.EXPERT) {
-            ExpertProfile expertProfile = ExpertProfile.builder()
-                    .user(savedUser)
-
-                    .specialization("General")
-                    .build();
-            expertProfileRepository.save(expertProfile);
-        } else {
-            FarmerProfile farmerProfile = FarmerProfile.builder()
-                    .user(savedUser)
-                    .build();
-            farmerProfileRepository.save(farmerProfile);
-        }
-
-        return AuthResponse.builder()
-                .username(savedUser.getUsername()
-                .role(savedUser.getRole().name())
-                .message("Registration Successful!")
-                .build();
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUsername(request.getEmail().split("@")[0]);
+        user.setRole("USER");
+        userRepository.save(user);
     }
 
     @Override
     public AuthResponse authenticate(AuthRequest request) {
-       Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-
-            if (user.getPassword().equals(request.getPassword())) {
-                return AuthResponse.builder()
-                        .username(user.getUsername()
-                        .role(user.getRole().name())
-                        .token("sample-jwt-token")
-                        .message("Login Successful!")
-                        .build();
-            }
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new EmailNotFoundException("Email not found"));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
         }
-
-        return AuthResponse.builder()
-                .message("Invalid Email or Password!")
-                .build();
+        String token = jwtUtil.generateToken(user.getEmail());
+        return AuthResponse.builder().accessToken(token).build();
     }
 
     @Override
-    public void completeProfile(Map<String, String> details) {
-        System.out.println("Processing profile completion for: " + details.get("email"));
+    public void completeProfile(java.util.Map<String, String> details) {
+        // Not implemented
     }
 }
