@@ -8,4 +8,6 @@ import java.util.List;
 public interface PlantRepository extends JpaRepository<Plant, Long> {
     List<Plant> findByOwnerAndStatus(User owner, String status);
     List<Plant> findByStatus(String status);
+    List<Plant> findByOwner(User owner);
+    List<Plant> findByOwnerAndSection(User owner, String section);
 }

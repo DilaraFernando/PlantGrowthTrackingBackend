@@ -25,6 +25,9 @@ public class Plant {
     private int currentDay;
     private String currentStage;
     private String status;
+    private String section;
+    private String rowPosition;
+    private Integer gridIndex;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner;

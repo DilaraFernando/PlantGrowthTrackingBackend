@@ -13,4 +13,8 @@ public interface PlantService {
     List<GrowthLogResponse> getPlantLogs(Long plantId, String userEmail);
     List<NotificationResponse> getMyNotifications(String userEmail);
     void markNotificationRead(Long notificationId, String userEmail);
+
+    List<SectionSummaryResponse> getSectionSummaries(String userEmail);
+    List<PlantLocationResponse> getPlantsInSection(String userEmail, String section);
+    List<PlantLocationResponse> getAllPlantLocations(String userEmail);
 }

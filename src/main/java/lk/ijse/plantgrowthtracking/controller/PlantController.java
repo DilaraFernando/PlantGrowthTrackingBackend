@@ -16,6 +16,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/plants")
 public class PlantController {
+        @GetMapping("")
+        public ResponseEntity<APIResponse<List<PlantResponse>>> getMyPlants(Authentication authentication) {
+            String email = authentication.getName();
+            List<PlantResponse> list = plantService.getMyPlants(email);
+            return ResponseEntity.ok(APIResponse.success(list));
+        }
 
         @GetMapping("/{plantId}/alert")
         public ResponseEntity<APIResponse<String>> getPlantAlert(@PathVariable Long plantId, Authentication authentication) {
@@ -44,13 +50,6 @@ public class PlantController {
         String email = authentication.getName();
         PlantResponse response = plantService.registerPlant(dto, email);
         return ResponseEntity.status(HttpStatus.CREATED).body(APIResponse.success(response));
-    }
-
-    @GetMapping("")
-    public ResponseEntity<APIResponse<List<PlantResponse>>> getMyPlants(Authentication authentication) {
-        String email = authentication.getName();
-        List<PlantResponse> list = plantService.getMyPlants(email);
-        return ResponseEntity.ok(APIResponse.success(list));
     }
 
     @GetMapping("/{plantId}/logs")

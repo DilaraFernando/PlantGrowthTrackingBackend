@@ -19,6 +19,35 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class PlantServiceImpl implements PlantService {
+    @Override
+    public List<SectionSummaryResponse> getSectionSummaries(String userEmail) {
+        User owner = userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("User not found"));
+        List<Plant> plants = plantRepository.findByOwner(owner);
+        return plants.stream()
+                .filter(p -> p.getSection() != null)
+                .collect(Collectors.groupingBy(Plant::getSection, Collectors.counting()))
+                .entrySet().stream()
+                .map(e -> new SectionSummaryResponse(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlantLocationResponse> getPlantsInSection(String userEmail, String section) {
+        User owner = userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("User not found"));
+        List<Plant> plants = plantRepository.findByOwnerAndSection(owner, section);
+        return plants.stream()
+                .map(p -> new PlantLocationResponse(p.getId(), p.getPlantName(), p.getSection(), p.getRowPosition(), p.getGridIndex()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlantLocationResponse> getAllPlantLocations(String userEmail) {
+        User owner = userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("User not found"));
+        List<Plant> plants = plantRepository.findByOwner(owner);
+        return plants.stream()
+                .map(p -> new PlantLocationResponse(p.getId(), p.getPlantName(), p.getSection(), p.getRowPosition(), p.getGridIndex()))
+                .collect(Collectors.toList());
+    }
 
         @Override
         public String getPlantAlert(Long plantId, String userEmail) {
