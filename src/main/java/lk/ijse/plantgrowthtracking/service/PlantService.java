@@ -5,6 +5,7 @@ import lk.ijse.plantgrowthtracking.dto.*;
 import java.util.List;
 
 public interface PlantService {
+        String getPlantAlert(Long plantId, String userEmail);
     PlantResponse getPlantById(Long plantId, String userEmail);
 
     PlantResponse registerPlant(PlantRegisterRequest dto, String userEmail);

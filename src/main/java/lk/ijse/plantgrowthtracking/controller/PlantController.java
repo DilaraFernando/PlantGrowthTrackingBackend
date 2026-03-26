@@ -16,6 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/plants")
 public class PlantController {
+
+        @GetMapping("/{plantId}/alert")
+        public ResponseEntity<APIResponse<String>> getPlantAlert(@PathVariable Long plantId, Authentication authentication) {
+            String email = authentication.getName();
+            String alert = plantService.getPlantAlert(plantId, email);
+            return ResponseEntity.ok(APIResponse.success(alert));
+        }
     @Autowired
     private PlantService plantService;
 

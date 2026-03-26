@@ -19,6 +19,26 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class PlantServiceImpl implements PlantService {
+
+        @Override
+        public String getPlantAlert(Long plantId, String userEmail) {
+            Plant plant = plantRepository.findById(plantId)
+                    .orElseThrow(() -> new RuntimeException("Plant not found"));
+            if (!plant.getOwner().getEmail().equals(userEmail)) {
+                throw new RuntimeException("Unauthorized access to plant");
+            }
+            // Simple alert logic based on status and stage
+            if (plant.getStatus() != null && plant.getStatus().toUpperCase().contains("THIRSTY")) {
+                return "Danger: Your plant needs water!";
+            }
+            if (plant.getCurrentStage() != null && plant.getCurrentStage().toLowerCase().contains("harvest")) {
+                return "Good: Your plant is ready for harvest.";
+            }
+            if (plant.getStatus() != null && plant.getStatus().toUpperCase().contains("HEALTHY")) {
+                return "Safe: Your plant is healthy.";
+            }
+            return "No alert for this plant.";
+        }
     private static final Logger log = LoggerFactory.getLogger(PlantServiceImpl.class);
 
     @Autowired
