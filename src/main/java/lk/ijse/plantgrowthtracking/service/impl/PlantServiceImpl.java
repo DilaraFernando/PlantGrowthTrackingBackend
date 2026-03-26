@@ -42,6 +42,16 @@ public class PlantServiceImpl implements PlantService {
     }
 
     @Override
+    public PlantResponse getPlantById(Long plantId, String userEmail) {
+        Plant plant = plantRepository.findById(plantId)
+                .orElseThrow(() -> new RuntimeException("Plant not found"));
+        if (!plant.getOwner().getEmail().equals(userEmail)) {
+            throw new RuntimeException("Unauthorized access to plant");
+        }
+        return toPlantResponse(plant);
+    }
+
+    @Override
     public PlantResponse registerPlant(PlantRegisterRequest dto, String userEmail) {
         log.info("Registering plant for user: {}", userEmail);
         User user = userRepository.findByEmail(userEmail)
@@ -52,103 +62,79 @@ public class PlantServiceImpl implements PlantService {
         plant.setPlantedDate(LocalDate.now());
         plant.setCurrentDay(1);
         plant.setCurrentStage(getStageForDay(1));
-        plant.setStatus("ACTIVE");
+        plant.setStatus("HEALTHY");
         plant.setOwner(user);
-        Plant savedPlant = plantRepository.save(plant);
-        log.info("Plant saved with id: {}", savedPlant.getId());
-        GrowthLog logEntry = new GrowthLog();
-        logEntry.setPlant(savedPlant);
-        logEntry.setDayNumber(1);
-        logEntry.setStage(getStageForDay(1));
-        logEntry.setNotes("");
-        logEntry.setLogDate(LocalDate.now());
-        growthLogRepository.save(logEntry);
-        Notification notification = new Notification();
-        notification.setUser(user);
-        notification.setMessage("Your plant [" + savedPlant.getPlantName() + "] has been successfully registered. Day 1 of 30 begins today!");
-        notification.setType("PLANTING_SUCCESS");
-        notification.setIsRead(false);
-        notification.setCreatedAt(LocalDateTime.now());
-        notificationRepository.save(notification);
-        return toPlantResponse(savedPlant);
+        Plant saved = plantRepository.save(plant);
+        return toPlantResponse(saved);
     }
 
     @Override
     public List<PlantResponse> getMyPlants(String userEmail) {
-        log.info("Fetching plants for user: {}", userEmail);
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        List<Plant> plants = plantRepository.findByOwnerAndStatus(user, "ACTIVE");
-        log.info("Found {} plants", plants.size());
-        return plants.stream()
-                .map(this::toPlantResponse)
-                .collect(Collectors.toList());
+        List<Plant> plants = plantRepository.findByOwnerAndStatus(user, "HEALTHY");
+        return plants.stream().map(this::toPlantResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<GrowthLogResponse> getPlantLogs(Long plantId, String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
         Plant plant = plantRepository.findById(plantId)
                 .orElseThrow(() -> new RuntimeException("Plant not found"));
-        if (!plant.getOwner().getId().equals(user.getId())) {
-            throw new RuntimeException("Unauthorized access to plant");
+        if (!plant.getOwner().getEmail().equals(userEmail)) {
+            throw new RuntimeException("Unauthorized access to plant logs");
         }
-        return growthLogRepository.findByPlantOrderByDayNumberAsc(plant).stream()
-                .map(this::toGrowthLogResponse)
-                .collect(Collectors.toList());
+        return growthLogRepository.findByPlantOrderByDayNumberAsc(plant)
+                .stream().map(this::toGrowthLogResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<NotificationResponse> getMyNotifications(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return notificationRepository.findByUserOrderByCreatedAtDesc(user).stream()
-                .map(this::toNotificationResponse)
-                .collect(Collectors.toList());
+        return notificationRepository.findByUserOrderByCreatedAtDesc(user)
+                .stream().map(this::toNotificationResponse).collect(Collectors.toList());
     }
 
     @Override
     public void markNotificationRead(Long notificationId, String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
         Notification notification = notificationRepository.findById(notificationId)
-            .orElseThrow(() -> new RuntimeException("Notification not found"));
-        if (!notification.getUser().getId().equals(user.getId())) {
+                .orElseThrow(() -> new RuntimeException("Notification not found"));
+        if (!notification.getUser().getEmail().equals(userEmail)) {
             throw new RuntimeException("Unauthorized access to notification");
         }
         notification.setIsRead(true);
         notificationRepository.save(notification);
     }
 
+    // Helper methods
     private PlantResponse toPlantResponse(Plant plant) {
-        PlantResponse res = new PlantResponse();
-        res.setId(plant.getId());
-        res.setPlantName(plant.getPlantName());
-        res.setPlantType(plant.getPlantType());
-        res.setPlantedDate(plant.getPlantedDate());
-        res.setCurrentDay(plant.getCurrentDay());
-        res.setCurrentStage(plant.getCurrentStage());
-        res.setStatus(plant.getStatus());
-        return res;
+        return PlantResponse.builder()
+                .id(plant.getId())
+                .plantName(plant.getPlantName())
+                .plantType(plant.getPlantType())
+                .plantedDate(plant.getPlantedDate())
+                .currentDay(plant.getCurrentDay())
+                .currentStage(plant.getCurrentStage())
+                .status(plant.getStatus())
+                .build();
     }
 
     private GrowthLogResponse toGrowthLogResponse(GrowthLog log) {
-        GrowthLogResponse res = new GrowthLogResponse();
-        res.setDayNumber(log.getDayNumber());
-        res.setStage(log.getStage());
-        res.setNotes(log.getNotes());
-        res.setLogDate(log.getLogDate());
-        return res;
+        return GrowthLogResponse.builder()
+                .dayNumber(log.getDayNumber())
+                .stage(log.getStage())
+                .notes(log.getNotes())
+                .logDate(log.getLogDate())
+                .build();
     }
 
-    private NotificationResponse toNotificationResponse(Notification n) {
-        NotificationResponse res = new NotificationResponse();
-        res.setId(n.getId());
-        res.setMessage(n.getMessage());
-        res.setType(n.getType());
-        res.setRead(n.getIsRead());
-        res.setCreatedAt(n.getCreatedAt());
-        return res;
+    private NotificationResponse toNotificationResponse(Notification notification) {
+        return NotificationResponse.builder()
+                .id(notification.getId())
+                .message(notification.getMessage())
+                .type(notification.getType())
+                .isRead(notification.getIsRead())
+                .createdAt(notification.getCreatedAt())
+                .build();
     }
 }

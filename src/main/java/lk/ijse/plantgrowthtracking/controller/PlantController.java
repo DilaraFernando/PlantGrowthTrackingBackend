@@ -25,6 +25,13 @@ public class PlantController {
     @Autowired
     private GrowthScheduler growthScheduler;
 
+    @GetMapping("/{plantId}")
+    public ResponseEntity<APIResponse<PlantResponse>> getPlantById(@PathVariable Long plantId, Authentication authentication) {
+        String email = authentication.getName();
+        PlantResponse plant = plantService.getPlantById(plantId, email);
+        return ResponseEntity.ok(APIResponse.success(plant));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<APIResponse<PlantResponse>> registerPlant(@RequestBody PlantRegisterRequest dto, Authentication authentication) {
         String email = authentication.getName();
