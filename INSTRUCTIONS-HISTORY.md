@@ -1,3 +1,4 @@
+2026-03-26: Fixed weather endpoint to use OpenWeatherMap 2.5/weather, confirmed WeatherController and SecurityConfig are correct, as per instructions. Now returns JSON for /api/v1/weather/current?city=Colombo
 # Instructions History - Plant Growth Tracking Backend
 
 ## Task: Implement 30-Day Plant Growth Tracking backend
