@@ -5,6 +5,8 @@ import lk.ijse.plantgrowthtracking.entity.*;
 import lk.ijse.plantgrowthtracking.repository.*;
 import lk.ijse.plantgrowthtracking.service.PlantService;
 import lk.ijse.plantgrowthtracking.service.SocialPostService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class PlantServiceImpl implements PlantService {
+    private static final Logger log = LoggerFactory.getLogger(PlantServiceImpl.class);
+
     @Autowired
     private PlantRepository plantRepository;
     @Autowired
@@ -39,6 +43,7 @@ public class PlantServiceImpl implements PlantService {
 
     @Override
     public PlantResponse registerPlant(PlantRegisterRequest dto, String userEmail) {
+        log.info("Registering plant for user: {}", userEmail);
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Plant plant = new Plant();
@@ -49,29 +54,33 @@ public class PlantServiceImpl implements PlantService {
         plant.setCurrentStage(getStageForDay(1));
         plant.setStatus("ACTIVE");
         plant.setOwner(user);
-        plant = plantRepository.save(plant);
-        GrowthLog log = new GrowthLog();
-        log.setPlant(plant);
-        log.setDayNumber(1);
-        log.setStage(getStageForDay(1));
-        log.setNotes("");
-        log.setLogDate(LocalDate.now());
-        growthLogRepository.save(log);
+        Plant savedPlant = plantRepository.save(plant);
+        log.info("Plant saved with id: {}", savedPlant.getId());
+        GrowthLog logEntry = new GrowthLog();
+        logEntry.setPlant(savedPlant);
+        logEntry.setDayNumber(1);
+        logEntry.setStage(getStageForDay(1));
+        logEntry.setNotes("");
+        logEntry.setLogDate(LocalDate.now());
+        growthLogRepository.save(logEntry);
         Notification notification = new Notification();
         notification.setUser(user);
-        notification.setMessage("Your plant [" + plant.getPlantName() + "] has been successfully registered. Day 1 of 30 begins today!");
+        notification.setMessage("Your plant [" + savedPlant.getPlantName() + "] has been successfully registered. Day 1 of 30 begins today!");
         notification.setType("PLANTING_SUCCESS");
-        notification.setRead(false);
+        notification.setIsRead(false);
         notification.setCreatedAt(LocalDateTime.now());
         notificationRepository.save(notification);
-        return toPlantResponse(plant);
+        return toPlantResponse(savedPlant);
     }
 
     @Override
     public List<PlantResponse> getMyPlants(String userEmail) {
+        log.info("Fetching plants for user: {}", userEmail);
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return plantRepository.findByOwnerAndStatus(user, "ACTIVE").stream()
+        List<Plant> plants = plantRepository.findByOwnerAndStatus(user, "ACTIVE");
+        log.info("Found {} plants", plants.size());
+        return plants.stream()
                 .map(this::toPlantResponse)
                 .collect(Collectors.toList());
     }
@@ -104,11 +113,11 @@ public class PlantServiceImpl implements PlantService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("Notification not found"));
+            .orElseThrow(() -> new RuntimeException("Notification not found"));
         if (!notification.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("Unauthorized access to notification");
         }
-        notification.setRead(true);
+        notification.setIsRead(true);
         notificationRepository.save(notification);
     }
 
@@ -138,7 +147,7 @@ public class PlantServiceImpl implements PlantService {
         res.setId(n.getId());
         res.setMessage(n.getMessage());
         res.setType(n.getType());
-        res.setRead(n.isRead());
+        res.setRead(n.getIsRead());
         res.setCreatedAt(n.getCreatedAt());
         return res;
     }

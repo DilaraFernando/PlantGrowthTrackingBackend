@@ -17,8 +17,6 @@ public class NotificationResponse {
     private Long id;
     private String message;
     private String type;
-    private boolean read;
+    private boolean isRead;
     private LocalDateTime createdAt;
-
-    // ...existing code...
 }

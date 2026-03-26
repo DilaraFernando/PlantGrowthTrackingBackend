@@ -25,6 +25,7 @@ public class SocialPost {
     private String caption;
     private String status;
     private LocalDateTime createdAt;
+    private int dayNumber;
 
     // ...existing code...
 }

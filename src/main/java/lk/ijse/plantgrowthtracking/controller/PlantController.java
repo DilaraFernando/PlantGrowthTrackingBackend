@@ -2,6 +2,8 @@ package lk.ijse.plantgrowthtracking.controller;
 
 import lk.ijse.plantgrowthtracking.dto.*;
 import lk.ijse.plantgrowthtracking.service.PlantService;
+import lk.ijse.plantgrowthtracking.service.SocialPostService;
+import lk.ijse.plantgrowthtracking.scheduler.GrowthScheduler;
 import lk.ijse.plantgrowthtracking.util.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,12 @@ import java.util.List;
 public class PlantController {
     @Autowired
     private PlantService plantService;
+    
+    @Autowired
+    private SocialPostService socialPostService;
+    
+    @Autowired
+    private GrowthScheduler growthScheduler;
 
     @PostMapping("/register")
     public ResponseEntity<APIResponse<PlantResponse>> registerPlant(@RequestBody PlantRegisterRequest dto, Authentication authentication) {
@@ -49,5 +57,18 @@ public class PlantController {
         String email = authentication.getName();
         plantService.markNotificationRead(id, email);
         return ResponseEntity.ok(APIResponse.success(null));
+    }
+
+    @GetMapping("/{plantId}/social-posts")
+    public ResponseEntity<APIResponse<List<SocialPostResponse>>> getPlantSocialPosts(@PathVariable Long plantId, Authentication authentication) {
+        String email = authentication.getName();
+        List<SocialPostResponse> posts = socialPostService.getPostsForPlant(plantId, email);
+        return ResponseEntity.ok(APIResponse.success(posts));
+    }
+
+    @PostMapping("/admin/trigger-daily-update")
+    public ResponseEntity<APIResponse<String>> triggerDailyUpdate() {
+        growthScheduler.runDailyGrowthUpdate();
+        return ResponseEntity.ok(APIResponse.success("Daily update triggered"));
     }
 }

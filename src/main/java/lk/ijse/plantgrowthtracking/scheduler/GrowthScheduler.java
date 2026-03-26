@@ -46,7 +46,7 @@ public class GrowthScheduler {
                 completed.setUser(plant.getOwner());
                 completed.setMessage("Congratulations! Your plant [" + plant.getPlantName() + "] has completed its 30-day growth cycle!");
                 completed.setType("COMPLETED");
-                completed.setRead(false);
+                completed.setIsRead(false);
                 completed.setCreatedAt(LocalDateTime.now());
                 notificationRepository.save(completed);
             } else {
@@ -54,7 +54,7 @@ public class GrowthScheduler {
                 daily.setUser(plant.getOwner());
                 daily.setMessage("Day " + nextDay + " update for [" + plant.getPlantName() + "]: currently in [" + stage + "] stage.");
                 daily.setType("DAILY_UPDATE");
-                daily.setRead(false);
+                daily.setIsRead(false);
                 daily.setCreatedAt(LocalDateTime.now());
                 notificationRepository.save(daily);
             }

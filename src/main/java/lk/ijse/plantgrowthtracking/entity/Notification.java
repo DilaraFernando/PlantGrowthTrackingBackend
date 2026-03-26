@@ -24,7 +24,15 @@ public class Notification {
     private User user;
     private String message;
     private String type;
-    private boolean read = false;
+    @Column(name = "is_read")
+    private boolean isRead = false;
+
+    public boolean getIsRead() {
+        return isRead;
+    }
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
     private LocalDateTime createdAt;
 
     // ...existing code...
