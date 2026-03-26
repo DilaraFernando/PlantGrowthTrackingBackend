@@ -52,6 +52,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/weather/**").permitAll()
                     .requestMatchers("/api/v1/plants/admin/**").permitAll()
                     .requestMatchers("/api/v1/plants/**").authenticated()
+                    .requestMatchers("/api/v1/collections/**").authenticated()
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
