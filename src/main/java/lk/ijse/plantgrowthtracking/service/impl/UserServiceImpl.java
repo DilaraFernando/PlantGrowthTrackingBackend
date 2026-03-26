@@ -22,13 +22,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByEmail(String email) {
-
-        return null;
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
     public User findUserByUsername(String username) {
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 
-        return null;
+    @Override
+    public lk.ijse.plantgrowthtracking.dto.UserSettingsResponse getSettings(String email) {
+        User user = findUserByEmail(email);
+        return new lk.ijse.plantgrowthtracking.dto.UserSettingsResponse(
+                user.getTimezone(), user.getLocale(), user.getNotifyByEmail(),
+                user.getDisplayName(), user.getUnits(), user.getDarkMode(), user.getPushNotifications()
+        );
+    }
+
+    @Override
+    @Transactional
+    public lk.ijse.plantgrowthtracking.dto.UserSettingsResponse updateSettings(String email, lk.ijse.plantgrowthtracking.dto.UserSettingsRequest request) {
+        User user = findUserByEmail(email);
+        if (request.getTimezone() != null) user.setTimezone(request.getTimezone());
+        if (request.getLocale() != null) user.setLocale(request.getLocale());
+        if (request.getNotifyByEmail() != null) user.setNotifyByEmail(request.getNotifyByEmail());
+        if (request.getDisplayName() != null) user.setDisplayName(request.getDisplayName());
+        if (request.getUnits() != null) user.setUnits(request.getUnits());
+        if (request.getDarkMode() != null) user.setDarkMode(request.getDarkMode());
+        if (request.getPushNotifications() != null) user.setPushNotifications(request.getPushNotifications());
+        userRepository.save(user);
+        return new lk.ijse.plantgrowthtracking.dto.UserSettingsResponse(
+                user.getTimezone(), user.getLocale(), user.getNotifyByEmail(),
+                user.getDisplayName(), user.getUnits(), user.getDarkMode(), user.getPushNotifications()
+        );
     }
 }

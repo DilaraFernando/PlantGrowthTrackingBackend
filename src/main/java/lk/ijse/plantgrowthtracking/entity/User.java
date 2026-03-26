@@ -28,4 +28,26 @@ public class User {
 
     @Column(nullable = false)
     private String role = "USER";
+    
+    // User settings
+    @Column(nullable = true)
+    private String timezone = "UTC";
+
+    @Column(nullable = true)
+    private String locale = "en_US";
+
+    @Column(nullable = true)
+    private Boolean notifyByEmail = true;
+    
+    @Column(nullable = true)
+    private String displayName;
+
+    @Column(nullable = true)
+    private String units = "metric";
+
+    @Column(nullable = true)
+    private Boolean darkMode = false;
+
+    @Column(nullable = true)
+    private Boolean pushNotifications = false;
 }
