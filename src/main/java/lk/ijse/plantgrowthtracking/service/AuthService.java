@@ -11,4 +11,5 @@ public interface AuthService {
     AuthResponse register(RegisterRequest request);
     AuthResponse authenticate(AuthRequest request);
     void completeProfile(Map<String, String> details);
+
 }

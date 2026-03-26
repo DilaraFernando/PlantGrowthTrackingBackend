@@ -21,15 +21,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
-    public AuthResponse register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email is already register");
-        }
-        User user = User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(request.getPassword() !- null ? password)
+    public User findUserByEmail(String email) {
 
+        return null;
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+
+        return null;
     }
 }
