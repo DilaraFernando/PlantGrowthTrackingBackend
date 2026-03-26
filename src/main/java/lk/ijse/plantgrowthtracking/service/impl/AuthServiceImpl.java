@@ -1,6 +1,8 @@
 package lk.ijse.plantgrowthtracking.service.impl;
 
 import lk.ijse.plantgrowthtracking.dto.*;
+import lk.ijse.plantgrowthtracking.entity.ExpertProfile;
+import lk.ijse.plantgrowthtracking.entity.FarmerProfile;
 import lk.ijse.plantgrowthtracking.entity.Role;
 import lk.ijse.plantgrowthtracking.entity.User;
 import lk.ijse.plantgrowthtracking.repository.*;
@@ -8,26 +10,28 @@ import lk.ijse.plantgrowthtracking.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
-    private final UserProfileRepository userProfileRepository;
     private final ExpertProfileRepository expertProfileRepository;
+    private final FarmerProfileRepository farmerProfileRepository;
 
     @Override
     @Transactional
     public AuthResponse register(RegisterRequest request) {
 
-        if (userRepository.existsByEmail(request.getEmail())) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             return AuthResponse.builder()
                     .message("Email already in use!")
                     .build();
         }
+
 
         User user = User.builder()
                 .username(request.getUsername())
@@ -38,40 +42,43 @@ public class AuthServiceImpl implements AuthService {
 
         User savedUser = userRepository.save(user);
 
+
         if (request.getRole() == Role.EXPERT) {
             ExpertProfile expertProfile = ExpertProfile.builder()
                     .user(savedUser)
-                    .specialization(request.getSpecialization())
-                    .qualifications(request.getQualifications())
+
+                    .specialization("General")
                     .build();
             expertProfileRepository.save(expertProfile);
         } else {
-            UserProfileDTO userProfile = UserProfileDTO.builder()
+            FarmerProfile farmerProfile = FarmerProfile.builder()
                     .user(savedUser)
-                    .phoneNumber(request.getPhoneNumber())
-                    .plantType(request.getPlantType())
-                    .dateOfBirth(request.getDateOfBirth())
                     .build();
-            userProfileRepository.save(userProfile);
+            farmerProfileRepository.save(farmerProfile);
         }
+
         return AuthResponse.builder()
-                .username(savedUser.getUsername())
+                .username(savedUser.getUsername()
                 .role(savedUser.getRole().name())
                 .message("Registration Successful!")
                 .build();
     }
+
     @Override
     public AuthResponse authenticate(AuthRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElse(null);
+       Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
 
-        if (user != null && user.getPassword().equals(request.getPassword())) {
-            return AuthResponse.builder()
-                    .username(user.getUsername())
-                    .role(user.getRole().name())
-                    .token("sample-jwt-token")
-                    .message("Login Successful!")
-                    .build();
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (user.getPassword().equals(request.getPassword())) {
+                return AuthResponse.builder()
+                        .username(user.getUsername()
+                        .role(user.getRole().name())
+                        .token("sample-jwt-token")
+                        .message("Login Successful!")
+                        .build();
+            }
         }
 
         return AuthResponse.builder()
