@@ -15,7 +15,6 @@ public class APIResponse<T> {
     public static <T> APIResponse<T> success(T data) {
         return new APIResponse<>(200, "Success", data);
     }
-
     public static <T> APIResponse<T> error(int status, String message) {
         return new APIResponse<>(status, message, null);
     }

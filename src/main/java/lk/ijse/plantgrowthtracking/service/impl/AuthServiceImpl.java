@@ -36,7 +36,6 @@ public class AuthServiceImpl implements AuthService {
         user.setRole("USER");
         userRepository.save(user);
     }
-
     @Override
     public AuthResponse authenticate(AuthRequest request) {
         User user = userRepository.findByEmail(request.getEmail())

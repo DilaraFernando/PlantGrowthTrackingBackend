@@ -6,6 +6,7 @@ public class PlantLocationResponse {
     private String section;
     private String rowPosition;
     private Integer gridIndex;
+    private String status;
 
     public PlantLocationResponse(Long id, String plantName, String section, String rowPosition, Integer gridIndex) {
         this.id = id;
@@ -15,9 +16,17 @@ public class PlantLocationResponse {
         this.gridIndex = gridIndex;
     }
 
-    public Long getId() { return id; }
-    public String getPlantName() { return plantName; }
-    public String getSection() { return section; }
-    public String getRowPosition() { return rowPosition; }
-    public Integer getGridIndex() { return gridIndex; }
+    public Long getId() {
+        return id; }
+    public String getPlantName() {
+        return plantName; }
+    public String getSection() {
+        return section; }
+    public String getRowPosition() {
+        return rowPosition; }
+    public Integer getGridIndex() {
+        return gridIndex; }
+    public String getStatus(){
+        return status;
+    }
 }

@@ -14,6 +14,9 @@ public class PlantRegisterRequest {
     private String plantName;
     @NotBlank
     private String plantType;
+    private String section;
+    private String rowPosition;
+    private Integer gridIndex;
 
     // ...existing code...
 }

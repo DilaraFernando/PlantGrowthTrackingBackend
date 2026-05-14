@@ -29,6 +29,14 @@ public class PlantController {
             String alert = plantService.getPlantAlert(plantId, email);
             return ResponseEntity.ok(APIResponse.success(alert));
         }
+
+    // PlantController.java ඇතුළත
+    @GetMapping("/all-locations")
+    public ResponseEntity<APIResponse<List<PlantLocationResponse>>> getAllPlantLocations(Authentication authentication) {
+        String email = authentication.getName();
+        List<PlantLocationResponse> locations = plantService.getAllPlantLocations(email);
+        return ResponseEntity.ok(APIResponse.success(locations));
+    }
     @Autowired
     private PlantService plantService;
 

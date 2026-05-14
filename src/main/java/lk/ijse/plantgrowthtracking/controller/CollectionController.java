@@ -25,14 +25,12 @@ public class CollectionController {
         CollectionResponse response = collectionService.createCollection(request, email);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
     @GetMapping
     public ResponseEntity<List<CollectionResponse>> getMyCollections(Authentication authentication) {
         String email = authentication.getName();
         List<CollectionResponse> collections = collectionService.getMyCollections(email);
         return ResponseEntity.ok(collections);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCollection(@PathVariable Long id, Authentication authentication) {
         String email = authentication.getName();
