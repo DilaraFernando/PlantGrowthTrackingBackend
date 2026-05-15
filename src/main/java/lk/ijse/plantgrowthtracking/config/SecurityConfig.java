@@ -19,11 +19,9 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
-    // CORS CONFIG (FIXED)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
         config.setAllowedOrigins(List.of(
                 "http://localhost:5500",
                 "http://127.0.0.1:5500",
@@ -36,43 +34,34 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
         return source;
     }
-    //  SECURITY FILTER CHAIN (FIXED)
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(csrf -> csrf.disable())
-
-                //  Enable CORS properly
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
                 .authorizeHttpRequests(auth -> auth
-
-                        //  Allow preflight requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        //  Public endpoints
+                        // --- Public Endpoints ---
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/*.html").permitAll()
+                        .requestMatchers("/api/journey/**").permitAll() // FIX: Added this to stop 403
                         .requestMatchers("/api/v1/weather/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/*.html", "/assets/**").permitAll()
 
-                        // Admin
+                        // --- Role Based / Admin ---
                         .requestMatchers("/api/v1/plants/admin/**").permitAll()
 
-                        // Protected endpoints
+                        // --- Protected Endpoints ---
                         .requestMatchers("/api/v1/plants/**").authenticated()
                         .requestMatchers("/api/v1/collections/**").authenticated()
                         .requestMatchers("/api/v1/chat/**").authenticated()
-                        .requestMatchers("/api/v1/plants/**").authenticated()
 
                         .anyRequest().authenticated()
                 )
-                // Add JWT filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
